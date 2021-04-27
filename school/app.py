@@ -14,19 +14,18 @@ class Todo(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
-@app.route('/', methods=['POST','GET'])
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    if request.method =='POST':
+    if request.method == 'POST':
         task_content = request.form['content']
         new_task = Todo(content=task_content)
 
         try:
-            db.sesssion.add(new_task)
+            db.session.add(new_task)
             db.session.commit()
             return redirect('/')
         except:
             return 'There was an issue adding your task'
-
 
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
